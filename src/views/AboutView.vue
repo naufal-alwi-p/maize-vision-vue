@@ -1,15 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
-</template>
+  <h1 class="font-bold text-2xl">This is an about page</h1>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+  <RouterLink to="/">Home</RouterLink>
+  <RouterLink to="/about">About</RouterLink>
+</template>
