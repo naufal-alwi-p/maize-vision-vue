@@ -4,23 +4,28 @@ import Menubar from 'primevue/menubar';
 import { type MenuItem } from 'primevue/menuitem';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import MaizeVisionIcon from '@/assets/maize-vision-logo.svg';
+import { RouterLink } from 'vue-router';
 
 const items = ref<MenuItem[]>([
     {
         label: 'Home',
         icon: 'pi pi-home',
+        route: '/',
     },
     {
         label: 'Detection',
         icon: 'pi pi-camera',
+        route: '/detection',
     },
     {
         label: 'Diseases',
         icon: 'pi pi-folder',
+        route: '/diseases'
     },
     {
         label: 'About',
         icon: 'pi pi-info-circle',
+        route: '/about',
     },
 ]);
 
@@ -63,10 +68,23 @@ onBeforeUnmount(() => {
                     <p class="font-bold text-xl hidden lg:block">Maize Vision</p>
                 </div>
             </template>
+            <template #item="{ item, props, hasSubmenu }">
+                <RouterLink v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                    <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                        <span :class="item.icon" />
+                        <span>{{ item.label }}</span>
+                    </a>
+                </RouterLink>
+                <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+                    <span :class="item.icon" />
+                    <span>{{ item.label }}</span>
+                    <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
+                </a>
+            </template>
             <template #end>
                 <div class="flex items-center gap-x-2">
                     <!-- <Button icon="pi pi-moon" severity="contrast" size="small" variant="text" /> -->
-                    <Button label="Start Detection" rounded v-bind="isMobile ? { size: 'small' } : {}" />
+                    <Button @click="$router.push('/detection')" :class="$route.path === '/detection' ? 'opacity-0' : ''" :disabled="$route.path === '/detection'" label="Start Detection" rounded v-bind="isMobile ? { size: 'small' } : {}" />
                 </div>
             </template>
         </Menubar>

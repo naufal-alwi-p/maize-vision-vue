@@ -11,8 +11,5 @@ const pesan = "<b>Makan Nasi</b>";
 
   <Button severity="info" @click="console.log('Halo')">Click</Button>
 
-  <RouterLink to="/">Home</RouterLink>
-  <RouterLink to="/about">About</RouterLink>
-
   <div class="h-250"></div>
 </template>
