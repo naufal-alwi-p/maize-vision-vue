@@ -49,7 +49,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <nav class="sticky top-0 z-10 shadow">
+    <nav class="sticky top-0 z-50 shadow">
         <Menubar
             :model="items"
             :breakpoint="'1024px'"
@@ -70,7 +70,7 @@ onBeforeUnmount(() => {
             </template>
             <template #item="{ item, props, hasSubmenu }">
                 <RouterLink v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                    <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                    <a v-ripple :href="href" v-bind="props.action" @click="navigate" :class="`${$route.name === item.label?.toString().toLowerCase() ? 'lg:border-b-2 lg:border-[#2d5016] transition-[border] transition-discrete text-[#2d5016] font-bold' : ''}`">
                         <span :class="item.icon" />
                         <span>{{ item.label }}</span>
                     </a>
@@ -84,7 +84,7 @@ onBeforeUnmount(() => {
             <template #end>
                 <div class="flex items-center gap-x-2">
                     <!-- <Button icon="pi pi-moon" severity="contrast" size="small" variant="text" /> -->
-                    <Button @click="$router.push('/detection')" :class="$route.path === '/detection' ? 'opacity-0' : ''" :disabled="$route.path === '/detection'" label="Start Detection" rounded v-bind="isMobile ? { size: 'small' } : {}" />
+                    <Button @click="$router.push('/detection')" :class="$route.path === '/detection' ? 'opacity-0 bg-[#35591d] hover:bg-[#2e4f19]' : 'bg-[#35591d] hover:bg-[#2e4f19]'" :disabled="$route.path === '/detection'" label="Start Detection" rounded v-bind="isMobile ? { size: 'small' } : {}" />
                 </div>
             </template>
         </Menubar>
