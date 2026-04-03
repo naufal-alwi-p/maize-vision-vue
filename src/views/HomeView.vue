@@ -193,7 +193,7 @@ const goToDiseases = () => {
           @click="goToDetection"
         />
         <div class="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-white/85">
-          <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/diseases">View disease library</RouterLink>
+          <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/diseases">View disease catalog</RouterLink>
           <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/about">Learn more about Maize Vision</RouterLink>
         </div>
       </div>
