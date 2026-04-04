@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import DiseaseCard from '@/components/DiseaseCard.vue'
 import Footer from '@/components/Footer.vue'
+import CommonRustImage from '@/assets/common-rust.jpg'
+import GLSImage from '@/assets/gray-leaf-spot.jpg'
+import NCBImage from '@/assets/northern-leaf-blight.jpg'
+import PestDamageImage from '@/assets/pest-damage.jpg'
 
 interface Disease {
   id: string
@@ -17,7 +21,7 @@ const diseases: Disease[] = [
     id: 'common-rust',
     name: 'Common Rust',
     severity: 'Moderate',
-    image: 'src/assets/maize-vision-logo.svg',
+    image: CommonRustImage,
     characteristic:
       'Fungal disease with small, circular to elongate brown pustules on both leaf surfaces. Pustules appear in scattered patterns and may coalesce as the disease progresses.',
     solution:
@@ -28,7 +32,7 @@ const diseases: Disease[] = [
     id: 'gray-leaf-spot',
     name: 'Gray Leaf Spot',
     severity: 'Severe',
-    image: 'src/assets/maize-vision-logo.svg',
+    image: GLSImage,
     characteristic:
       'Rectangular gray or tan lesions with distinct parallel edges between leaf veins. Lesions may have a dark brown border and often appear in linear patterns on the leaf.',
     solution:
@@ -39,7 +43,7 @@ const diseases: Disease[] = [
     id: 'northern-corn-leaf-blight',
     name: 'Northern Corn Leaf Blight',
     severity: 'Severe',
-    image: 'src/assets/maize-vision-logo.svg',
+    image: NCBImage,
     characteristic:
       'Fungal disease causing long, elliptical gray-green lesions on corn leaves. Lesions appear with a tan or brown center and may have a yellow halo. Typically starts on lower leaves and progresses upward.',
     solution:
@@ -50,7 +54,7 @@ const diseases: Disease[] = [
     id: 'pest-damage',
     name: 'Pest Damage',
     severity: 'Moderate',
-    image: 'src/assets/maize-vision-logo.svg',
+    image: PestDamageImage,
     characteristic:
       'Physical damage to corn leaves caused by insect feeding, including irregular holes, leaf edges being consumed, or skeletonized patterns. Common pests include armyworms, corn borers, and grasshoppers.',
     solution:
