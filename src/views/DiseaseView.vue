@@ -9,7 +9,6 @@ import PestDamageImage from '@/assets/pest-damage.jpg'
 interface Disease {
   id: string
   name: string
-  severity: 'Severe' | 'Moderate' | 'Mild'
   image: string
   characteristic: string
   solution: string
@@ -20,7 +19,6 @@ const diseases: Disease[] = [
   {
     id: 'common-rust',
     name: 'Common Rust',
-    severity: 'Moderate',
     image: CommonRustImage,
     characteristic:
       'Fungal disease with small, circular to elongate brown pustules on both leaf surfaces. Pustules appear in scattered patterns and may coalesce as the disease progresses.',
@@ -31,7 +29,6 @@ const diseases: Disease[] = [
   {
     id: 'gray-leaf-spot',
     name: 'Gray Leaf Spot',
-    severity: 'Severe',
     image: GLSImage,
     characteristic:
       'Rectangular gray or tan lesions with distinct parallel edges between leaf veins. Lesions may have a dark brown border and often appear in linear patterns on the leaf.',
@@ -42,7 +39,6 @@ const diseases: Disease[] = [
   {
     id: 'northern-corn-leaf-blight',
     name: 'Northern Corn Leaf Blight',
-    severity: 'Severe',
     image: NCBImage,
     characteristic:
       'Fungal disease causing long, elliptical gray-green lesions on corn leaves. Lesions appear with a tan or brown center and may have a yellow halo. Typically starts on lower leaves and progresses upward.',
@@ -53,7 +49,6 @@ const diseases: Disease[] = [
   {
     id: 'pest-damage',
     name: 'Pest Damage',
-    severity: 'Moderate',
     image: PestDamageImage,
     characteristic:
       'Physical damage to corn leaves caused by insect feeding, including irregular holes, leaf edges being consumed, or skeletonized patterns. Common pests include armyworms, corn borers, and grasshoppers.',
@@ -91,7 +86,6 @@ const diseases: Disease[] = [
           :key="disease.id"
           :disease-id="disease.id"
           :disease-name="disease.name"
-          :severity="disease.severity"
           :disease-image="disease.image"
           :characteristic="disease.characteristic"
           :solution="disease.solution"
