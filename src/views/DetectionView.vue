@@ -2,7 +2,6 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
-import Dialog from 'primevue/dialog'
 import ProgressSpinner from 'primevue/progressspinner'
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
@@ -27,9 +26,15 @@ const torchOn = ref(false)
 const capturedPreviewUrl = ref<string | null>(null)
 const capturedFile = ref<File | null>(null)
 const videoInputCount = ref(0)
+const previewFrameRef = ref<HTMLDivElement | null>(null)
+const previewCropSize = ref(0)
 
 const hasPreview = computed(() => Boolean(previewUrl.value))
 const canSwitchCamera = computed(() => videoInputCount.value > 1)
+const previewCropStyle = computed(() => {
+    const size = previewCropSize.value
+    return size ? { width: `${size}px`, height: `${size}px` } : {}
+})
 const analyzeMessage = computed(() => {
     if (analyzeState.value === 'success') return 'Image submitted for analysis.'
     if (analyzeState.value === 'error') return 'Failed to submit image. Try again.'
@@ -39,6 +44,10 @@ const analyzeMessage = computed(() => {
 const openFileDialog = () => {
     fileInputRef.value?.click()
 }
+
+const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+
+const isAcceptedFile = (file: File): boolean => ACCEPTED_TYPES.includes(file.type)
 
 const setPreviewFromFile = (file: File) => {
     if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
@@ -50,13 +59,16 @@ const setPreviewFromFile = (file: File) => {
 const onFileChange = (event: Event) => {
     const input = event.target as HTMLInputElement
     const file = input.files?.[0]
-    if (!file) return
+    if (!file || !isAcceptedFile(file)) {
+        if (input) input.value = ''
+        return
+    }
     setPreviewFromFile(file)
 }
 
 const onDropFile = (event: DragEvent) => {
     const file = event.dataTransfer?.files?.[0]
-    if (!file) return
+    if (!file || !isAcceptedFile(file)) return
     setPreviewFromFile(file)
 }
 
@@ -85,6 +97,7 @@ const closeCamera = () => {
 }
 
 type TorchCapabilities = MediaTrackCapabilities & { torch?: boolean }
+let previewResizeObserver: ResizeObserver | null = null
 
 const refreshCameraDevices = async () => {
     if (!navigator.mediaDevices?.enumerateDevices) {
@@ -97,6 +110,12 @@ const refreshCameraDevices = async () => {
     } catch (error) {
         videoInputCount.value = 0
     }
+}
+
+const updatePreviewCropSize = () => {
+    const frame = previewFrameRef.value
+    if (!frame) return
+    previewCropSize.value = Math.min(frame.clientWidth, frame.clientHeight)
 }
 
 const startCamera = async () => {
@@ -153,12 +172,20 @@ const capturePhoto = async () => {
     const video = videoRef.value
     const canvas = captureCanvasRef.value ?? document.createElement('canvas')
     captureCanvasRef.value = canvas
-    canvas.width = video.videoWidth || 1280
-    canvas.height = video.videoHeight || 720
+
+    // Crop center square from the video feed for 1:1 output
+    const vw = video.videoWidth || 1280
+    const vh = video.videoHeight || 720
+    const cropSize = Math.min(vw, vh)
+    const sx = (vw - cropSize) / 2
+    const sy = (vh - cropSize) / 2
+
+    canvas.width = cropSize
+    canvas.height = cropSize
 
     const context = canvas.getContext('2d')
     if (!context) return
-    context.drawImage(video, 0, 0, canvas.width, canvas.height)
+    context.drawImage(video, sx, sy, cropSize, cropSize, 0, 0, cropSize, cropSize)
 
     const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, 'image/jpeg', 0.92)
@@ -248,6 +275,8 @@ const analyzeImage = async () => {
 onBeforeUnmount(() => {
     if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
     if (capturedPreviewUrl.value) URL.revokeObjectURL(capturedPreviewUrl.value)
+    previewResizeObserver?.disconnect()
+    previewResizeObserver = null
     stopCamera()
 })
 
@@ -256,6 +285,22 @@ watch(cameraOpen, async (isOpen) => {
         await startCamera()
     } else {
         stopCamera()
+    }
+})
+
+watch(previewUrl, async (value) => {
+    if (value) {
+        await nextTick()
+        updatePreviewCropSize()
+        previewResizeObserver?.disconnect()
+        if (typeof ResizeObserver !== 'undefined' && previewFrameRef.value) {
+            previewResizeObserver = new ResizeObserver(updatePreviewCropSize)
+            previewResizeObserver.observe(previewFrameRef.value)
+        }
+    } else {
+        previewResizeObserver?.disconnect()
+        previewResizeObserver = null
+        previewCropSize.value = 0
     }
 })
 </script>
@@ -272,9 +317,131 @@ watch(cameraOpen, async (isOpen) => {
                 </p>
             </div>
 
-            <div class="mx-auto mt-10 max-w-3xl space-y-8">
+            <div class="mx-auto mt-5 max-w-3xl space-y-8">
+                <!-- Inline Camera Mode -->
                 <Card
-                    v-if="!hasPreview"
+                    v-if="cameraOpen"
+                    class="overflow-hidden rounded-3xl border border-[#e3ead9] bg-[#0f1b0a] shadow-[0_20px_45px_rgba(63,83,48,0.12)]"
+                    :pt="{ body: { class: 'p-0' } }"
+                >
+                    <template #content>
+                        <div class="p-6 sm:p-8">
+                            <!-- Header -->
+                            <div class="mb-5 flex items-center justify-between">
+                                <div class="flex items-center gap-3 text-white">
+                                    <i class="pi pi-camera"></i>
+                                    <span class="text-lg font-semibold">Kamera Deteksi</span>
+                                </div>
+                                <Button
+                                    icon="pi pi-times"
+                                    rounded
+                                    text
+                                    class="text-white/70 hover:text-white"
+                                    aria-label="Close camera"
+                                    @click="closeCamera"
+                                />
+                            </div>
+
+                            <!-- Camera viewfinder (1:1 square) -->
+                            <div class="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-[#1a2413]" style="aspect-ratio: 1 / 1;">
+                                <video
+                                    ref="videoRef"
+                                    playsinline
+                                    muted
+                                    class="absolute inset-0 h-full w-full object-cover"
+                                ></video>
+
+                                <!-- Loading / Error overlay -->
+                                <div
+                                    v-if="!isCameraReady"
+                                    class="absolute inset-0 flex items-center justify-center bg-[#0f1b0a]/70 text-sm text-[#d8e3cf]"
+                                >
+                                    {{ cameraError || 'Menyalakan kamera...' }}
+                                </div>
+
+                                <!-- Captured preview -->
+                                <img
+                                    v-if="cameraCaptured && capturedPreviewUrl"
+                                    :src="capturedPreviewUrl"
+                                    alt="Captured preview"
+                                    class="absolute inset-0 h-full w-full object-cover"
+                                />
+
+                                <!-- Captured badge -->
+                                <div
+                                    v-if="cameraCaptured"
+                                    class="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-[#2f4a1f] px-4 py-1 text-xs font-semibold text-white"
+                                >
+                                    Foto Berhasil Diambil
+                                </div>
+
+                                <!-- 1:1 guide corners -->
+                                <div v-if="!cameraCaptured && isCameraReady" class="pointer-events-none absolute inset-3">
+                                    <div class="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-white/50 rounded-tl-md"></div>
+                                    <div class="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-white/50 rounded-tr-md"></div>
+                                    <div class="absolute bottom-0 left-0 h-6 w-6 border-b-2 border-l-2 border-white/50 rounded-bl-md"></div>
+                                    <div class="absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-white/50 rounded-br-md"></div>
+                                </div>
+                            </div>
+
+                            <p class="mt-4 text-center text-sm text-[#9bb08b]">
+                                Arahkan kamera ke daun jagung yang ingin dideteksi
+                            </p>
+
+                            <!-- Controls: capture mode -->
+                            <div v-if="!cameraCaptured" class="mt-5 flex items-center justify-between">
+                                <Button
+                                    icon="pi pi-sync"
+                                    rounded
+                                    outlined
+                                    class="border-[#355223] text-[#c6d3bf]"
+                                    aria-label="Switch camera"
+                                    :disabled="!canSwitchCamera || !isCameraReady"
+                                    @click="switchCamera"
+                                />
+                                <button
+                                    class="group relative flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/40 hover:border-white/60 active:border-white/60 transition-colors"
+                                    :disabled="!isCameraReady"
+                                    @click="capturePhoto"
+                                >
+                                    <span class="h-10 w-10 rounded-full border-4 border-white group-hover:bg-white group-active:bg-white transition-colors"></span>
+                                </button>
+                                <Button
+                                    icon="pi pi-bolt"
+                                    rounded
+                                    outlined
+                                    class="border-[#355223] text-[#c6d3bf]"
+                                    aria-label="Flash"
+                                    :disabled="!torchAvailable"
+                                    :severity="torchOn ? 'success' : undefined"
+                                    @click="toggleTorch"
+                                />
+                            </div>
+
+                            <!-- Controls: review mode -->
+                            <div v-else class="mt-5 flex flex-wrap gap-4">
+                                <Button
+                                    label="Ambil Ulang"
+                                    icon="pi pi-refresh"
+                                    severity="secondary"
+                                    outlined
+                                    class="flex-1 rounded-xl border-[#2f4a1f] text-[#f2f6ed]"
+                                    @click="retakePhoto"
+                                />
+                                <Button
+                                    label="Gunakan Foto"
+                                    icon="pi pi-check"
+                                    class="flex-1 rounded-xl border-0 bg-[#2f4a1f] text-white hover:bg-[#263d18]"
+                                    @click="useCapturedPhoto"
+                                />
+                            </div>
+                        </div>
+                    </template>
+                </Card>
+
+                <!-- Upload form (hidden when camera is active) -->
+                <Card
+                    v-else-if="!hasPreview"
                     class="overflow-hidden rounded-3xl border border-[#e3ead9] bg-white/95 shadow-[0_20px_45px_rgba(63,83,48,0.12)]"
                     :pt="{ body: { class: 'p-0' } }"
                 >
@@ -301,7 +468,7 @@ watch(cameraOpen, async (isOpen) => {
                             <input
                                 ref="fileInputRef"
                                 type="file"
-                                accept="image/*"
+                                accept="image/jpeg,image/png,image/webp"
                                 class="hidden"
                                 @change="onFileChange"
                             />
@@ -333,16 +500,34 @@ watch(cameraOpen, async (isOpen) => {
                 >
                     <template #content>
                         <div class="p-6 sm:p-8">
-                            <div class="relative overflow-hidden rounded-2xl bg-[#f2f6ed]">
+                            <div ref="previewFrameRef" class="relative overflow-hidden rounded-2xl bg-[#f2f6ed]">
                                 <img
                                     v-if="previewUrl"
                                     :src="previewUrl"
                                     alt="Selected corn leaf"
                                     class="w-full"
                                 />
+                                <div v-if="previewUrl" class="pointer-events-none absolute inset-0">
+                                    <div
+                                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-[0_0_0_9999px_rgba(6,10,5,0.6)]"
+                                        :style="previewCropStyle"
+                                    ></div>
+                                    <div
+                                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-dashed border-white/70"
+                                        :style="previewCropStyle"
+                                    ></div>
+                                    <!-- <div
+                                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                                        :style="previewCropStyle"
+                                    >
+                                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-[#0b1408]/70 px-3 py-1 text-[0.7rem] font-semibold text-white">
+                                            Area diproses 1:1
+                                        </div>
+                                    </div> -->
+                                </div>
                                 <div
                                     v-if="isAnalyzing"
-                                    class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#101a0b]/65 text-white"
+                                    class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-[#101a0b]/65 text-white"
                                 >
                                     <ProgressSpinner
                                         style="width: 48px; height: 48px"
@@ -415,114 +600,5 @@ watch(cameraOpen, async (isOpen) => {
             </div>
         </section>
 
-        <Dialog
-            v-model:visible="cameraOpen"
-            modal
-            :dismissableMask="true"
-            :draggable="false"
-            :style="{ width: '100vw', height: '100svh', maxHeight: '100svh' }"
-            :pt="{
-                root: { class: 'flex h-svh flex-col overflow-hidden rounded-none bg-[#0f1b0a] max-w-none! max-h-none!' },
-                header: { class: 'bg-[#0f1b0a] text-white px-6 py-4' },
-                content: { class: 'bg-[#0f1b0a] px-4 pb-4 pt-2 flex flex-1 min-h-0 flex-col overflow-hidden sm:px-6 sm:pb-6' },
-            }"
-            @hide="closeCamera"
-        >
-            <template #header>
-                <div class="flex items-center gap-3 text-white">
-                    <i class="pi pi-camera"></i>
-                    <span class="text-lg font-semibold">Kamera Deteksi</span>
-                </div>
-            </template>
-
-            <div class="flex flex-1 min-h-0 flex-col gap-3 sm:gap-4">
-                <div class="relative flex-1 min-h-0 overflow-hidden rounded-2xl bg-[#1a2413]">
-                    <video
-                        ref="videoRef"
-                        playsinline
-                        muted
-                        class="h-full w-full"
-                    ></video>
-
-                    <div
-                        v-if="!isCameraReady"
-                        class="absolute inset-0 flex items-center justify-center bg-[#0f1b0a]/70 text-sm text-[#d8e3cf]"
-                    >
-                        {{ cameraError || 'Menyalakan kamera...' }}
-                    </div>
-
-                    <!-- <div class="pointer-events-none absolute inset-0">
-                        <div class="absolute left-1/2 top-1/2 h-[70vmin] w-[70vmin] max-h-full max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-dashed border-white/50"></div>
-                        <div class="absolute left-6 top-6 h-8 w-8 border-l-2 border-t-2 border-[#9fb589]"></div>
-                        <div class="absolute right-6 top-6 h-8 w-8 border-r-2 border-t-2 border-[#9fb589]"></div>
-                        <div class="absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 border-[#9fb589]"></div>
-                        <div class="absolute bottom-6 right-6 h-8 w-8 border-b-2 border-r-2 border-[#9fb589]"></div>
-                    </div> -->
-
-                    <img
-                        v-if="cameraCaptured && capturedPreviewUrl"
-                        :src="capturedPreviewUrl"
-                        alt="Captured preview"
-                        class="absolute inset-0 landscape:h-full landscape:mx-auto portrait:w-full portrait:my-auto"
-                    />
-
-                    <div
-                        v-if="cameraCaptured"
-                        class="absolute left-1/2 top-6 -translate-x-1/2 rounded-full bg-[#2f4a1f] px-4 py-1 text-xs font-semibold text-white"
-                    >
-                        Foto Berhasil Diambil
-                    </div>
-                </div>
-
-                <p class="shrink-0 text-center text-sm text-[#9bb08b]">
-                    Arahkan kamera ke daun jagung yang ingin dideteksi
-                </p>
-
-                <div v-if="!cameraCaptured" class="shrink-0 flex items-center justify-between">
-                    <Button
-                        icon="pi pi-sync"
-                        rounded
-                        outlined
-                        class="border-[#355223] text-[#c6d3bf]"
-                        aria-label="Switch camera"
-                        :disabled="!canSwitchCamera || !isCameraReady"
-                        @click="switchCamera"
-                    />
-                    <button
-                        class="group relative flex h-16 w-16 items-center justify-center rounded-full border-4 border-white/40 hover:border-white/60 active:border-white/60 transition-colors"
-                        @click="capturePhoto"
-                    >
-                        <span class="h-10 w-10 rounded-full border-4 border-white group-hover:bg-white group-active:bg-white transition-colors"></span>
-                    </button>
-                    <Button
-                        icon="pi pi-bolt"
-                        rounded
-                        outlined
-                        class="border-[#355223] text-[#c6d3bf]"
-                        aria-label="Flash"
-                        :disabled="!torchAvailable"
-                        :severity="torchOn ? 'success' : undefined"
-                        @click="toggleTorch"
-                    />
-                </div>
-
-                <div v-else class="shrink-0 flex flex-wrap gap-4">
-                    <Button
-                        label="Ambil Ulang"
-                        icon="pi pi-refresh"
-                        severity="secondary"
-                        outlined
-                        class="flex-1 rounded-xl border-[#2f4a1f] text-[#f2f6ed]"
-                        @click="retakePhoto"
-                    />
-                    <Button
-                        label="Gunakan Foto"
-                        icon="pi pi-check"
-                        class="flex-1 rounded-xl border-0 bg-[#2f4a1f] text-white hover:bg-[#263d18]"
-                        @click="useCapturedPhoto"
-                    />
-                </div>
-            </div>
-        </Dialog>
     </main>
 </template>
