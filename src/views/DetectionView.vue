@@ -46,8 +46,24 @@ const openFileDialog = () => {
 }
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
+
+const fileError = ref<string | null>(null)
 
 const isAcceptedFile = (file: File): boolean => ACCEPTED_TYPES.includes(file.type)
+
+const validateFile = (file: File): boolean => {
+    fileError.value = null
+    if (!isAcceptedFile(file)) {
+        fileError.value = 'Format file tidak didukung. Gunakan JPG, PNG, atau WEBP.'
+        return false
+    }
+    if (file.size > MAX_FILE_SIZE) {
+        fileError.value = `Ukuran file terlalu besar (${(file.size / 1024 / 1024).toFixed(1)}MB). Maksimal 10MB.`
+        return false
+    }
+    return true
+}
 
 const setPreviewFromFile = (file: File) => {
     if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
@@ -59,7 +75,7 @@ const setPreviewFromFile = (file: File) => {
 const onFileChange = (event: Event) => {
     const input = event.target as HTMLInputElement
     const file = input.files?.[0]
-    if (!file || !isAcceptedFile(file)) {
+    if (!file || !validateFile(file)) {
         if (input) input.value = ''
         return
     }
@@ -68,7 +84,7 @@ const onFileChange = (event: Event) => {
 
 const onDropFile = (event: DragEvent) => {
     const file = event.dataTransfer?.files?.[0]
-    if (!file || !isAcceptedFile(file)) return
+    if (!file || !validateFile(file)) return
     setPreviewFromFile(file)
 }
 
@@ -462,7 +478,7 @@ watch(previewUrl, async (value) => {
                                 </span>
                                 <h3 class="text-lg font-semibold text-[#3c5726]">Drag and drop your corn leaf image here</h3>
                                 <p class="mt-1 text-sm text-[#7a8772]">or click to browse files</p>
-                                <p class="mt-3 text-xs text-[#9aa593]">Supported formats: JPG, PNG up to 10MB</p>
+                                <p class="mt-3 text-xs text-[#9aa593]">Supported formats: JPG, PNG, WEBP up to 10MB</p>
                             </div>
 
                             <input
@@ -488,6 +504,22 @@ watch(previewUrl, async (value) => {
                                     class="flex-1 rounded-xl border-0 bg-[#2f4a1f] text-white hover:bg-[#263d18]"
                                     @click="openCamera"
                                 />
+                            </div>
+
+                            <div
+                                v-if="fileError"
+                                class="mt-4 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                                role="alert"
+                            >
+                                <i class="pi pi-exclamation-circle text-red-500"></i>
+                                <span class="flex-1">{{ fileError }}</span>
+                                <button
+                                    class="ml-auto text-red-400 hover:text-red-600"
+                                    aria-label="Dismiss"
+                                    @click="fileError = null"
+                                >
+                                    <i class="pi pi-times text-xs"></i>
+                                </button>
                             </div>
                         </div>
                     </template>
