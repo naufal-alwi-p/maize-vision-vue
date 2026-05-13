@@ -3,6 +3,9 @@ import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import ProgressSpinner from 'primevue/progressspinner'
+import Select from 'primevue/select'
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
@@ -29,6 +32,18 @@ const videoInputCount = ref(0)
 const previewFrameRef = ref<HTMLDivElement | null>(null)
 const previewCropSize = ref(0)
 
+const modelOptions = ref([
+    {
+        name: 'ConvNeXt (Best)',
+        value: 'convnext',
+    },
+    {
+        name: 'MaxViT',
+        value: 'maxvit',
+    },
+])
+const selectedModel = ref('convnext')
+
 const hasPreview = computed(() => Boolean(previewUrl.value))
 const canSwitchCamera = computed(() => videoInputCount.value > 1)
 const previewCropStyle = computed(() => {
@@ -36,7 +51,7 @@ const previewCropStyle = computed(() => {
     return size ? { width: `${size}px`, height: `${size}px` } : {}
 })
 const analyzeMessage = computed(() => {
-    if (analyzeState.value === 'success') return 'Image submitted for analysis.'
+    // if (analyzeState.value === 'success') return 'Image submitted for analysis.'
     if (analyzeState.value === 'error') return 'Failed to submit image. Try again.'
     return ''
 })
@@ -265,19 +280,17 @@ const analyzeImage = async () => {
     analyzeState.value = 'idle'
 
     try {
-        const endpoint = 'http://127.0.0.1:8000'
+        const endpoint = 'http://127.0.0.1:8000/predict'
         if (selectedFile.value) {
             const formData = new FormData()
             formData.append('image', selectedFile.value)
+            formData.append('model', selectedModel.value)
             const response = await fetch(endpoint, { method: 'POST', body: formData })
             if (!response.ok) throw new Error('Upload failed')
+            const result = await response.json()
+            console.log(result)
         } else {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ source: 'camera_capture' }),
-            })
-            if (!response.ok) throw new Error('Upload failed')
+            throw new Error("Image file is required")
         }
 
         analyzeState.value = 'success'
@@ -328,9 +341,9 @@ watch(previewUrl, async (value) => {
                 <h1 class="text-[clamp(1.8rem,3vw,2.4rem)] font-semibold tracking-[-0.04em] text-[#2f4a1f]">
                     Corn Leaf Disease Detection
                 </h1>
-                <p class="mx-auto mt-2 max-w-xl text-[#6d7965]">
+                <!-- <p class="mx-auto mt-2 max-w-xl text-[#6d7965]">
                     Upload an image of a corn leaf to identify potential diseases
-                </p>
+                </p> -->
             </div>
 
             <div class="mx-auto mt-5 max-w-3xl space-y-8">
@@ -591,7 +604,21 @@ watch(previewUrl, async (value) => {
                                 :disabled="isAnalyzing"
                                 @click="analyzeImage"
                             />
-                            <p v-if="analyzeMessage" class="mt-3 text-center text-sm text-[#6d7965]" aria-live="polite">
+
+                            <InputGroup class="mt-5 max-w-fit mx-auto md:mx-0">
+                                <InputGroupAddon>
+                                    <i class="pi pi-microchip-ai"></i>
+                                </InputGroupAddon>
+                                <Select
+                                    v-model="selectedModel"
+                                    :options="modelOptions"
+                                    optionLabel="name"
+                                    optionValue="value"
+                                    size="small"
+                                />
+                            </InputGroup>
+
+                            <p v-if="analyzeMessage" class="mt-3 text-center text-sm text-red-500" aria-live="polite">
                                 {{ analyzeMessage }}
                             </p>
                         </div>
