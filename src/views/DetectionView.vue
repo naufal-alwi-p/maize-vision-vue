@@ -4,8 +4,12 @@ import Button from 'primevue/button'
 import Card from 'primevue/card'
 import ProgressSpinner from 'primevue/progressspinner'
 import Select from 'primevue/select'
-import InputGroup from 'primevue/inputgroup';
-import InputGroupAddon from 'primevue/inputgroupaddon';
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
+import DetectionResult from '@/components/DetectionResult.vue'
+import type { DetectionResultData } from '@/components/DetectionResult.vue'
+
+const detectionResult = ref<DetectionResultData | null>(null)
 
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
@@ -42,7 +46,7 @@ const modelOptions = ref([
         value: 'maxvit',
     },
 ])
-const selectedModel = ref('convnext')
+const selectedModel = ref<'convnext' | 'maxvit'>('convnext')
 
 const hasPreview = computed(() => Boolean(previewUrl.value))
 const canSwitchCamera = computed(() => videoInputCount.value > 1)
@@ -287,8 +291,8 @@ const analyzeImage = async () => {
             formData.append('model', selectedModel.value)
             const response = await fetch(endpoint, { method: 'POST', body: formData })
             if (!response.ok) throw new Error('Upload failed')
-            const result = await response.json()
-            console.log(result)
+            const result: DetectionResultData = await response.json()
+            detectionResult.value = result
         } else {
             throw new Error("Image file is required")
         }
@@ -299,6 +303,14 @@ const analyzeImage = async () => {
     } finally {
         isAnalyzing.value = false
     }
+}
+
+const handleBackToDetection = () => {
+    detectionResult.value = null
+    clearPreview()
+    if (fileInputRef.value) fileInputRef.value.value = ''
+    selectedModel.value = 'convnext'
+    fileError.value = null
 }
 
 onBeforeUnmount(() => {
@@ -335,7 +347,12 @@ watch(previewUrl, async (value) => {
 </script>
 
 <template>
-    <main class="bg-[#f7f8f3] text-[#27411a]">
+    <DetectionResult
+        v-if="detectionResult"
+        :result="detectionResult"
+        @back="handleBackToDetection"
+    />
+    <main v-else class="bg-[#f7f8f3] text-[#27411a]">
         <section class="mx-auto w-[min(1080px,calc(100%-1rem))] px-0 pt-7 pb-16">
             <div class="text-center">
                 <h1 class="text-[clamp(1.8rem,3vw,2.4rem)] font-semibold tracking-[-0.04em] text-[#2f4a1f]">
