@@ -18,7 +18,7 @@ defineProps<Props>()
     <Card class="overflow-hidden rounded-2xl border border-[#e2ead6] bg-white shadow-[0_12px_28px_rgba(63,83,48,0.06)]" :pt="{ body: { class: 'p-0' } }">
       <template #content>
         <div class="grid grid-cols-1 items-center gap-2 md:gap-6 md:grid-cols-[280px_1fr]">
-          <div class="overflow-hidden rounded-xl bg-[#f1f5eb] p-4 ml-0 md:ml-6">
+          <div class="overflow-hidden rounded-xl md:bg-[#f1f5eb] p-4 ml-0 md:ml-6">
             <img
               :src="diseaseImage"
               :alt="diseaseName"
