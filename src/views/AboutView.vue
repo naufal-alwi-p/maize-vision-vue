@@ -9,18 +9,18 @@ import MaizeVisionIcon from '../assets/maize-vision-logo.svg'
 const pillars = [
   {
     icon: 'pi pi-bullseye',
-    title: 'Disease Detection',
-    description: 'Identify common maize leaf diseases from uploaded photos with a fast AI workflow.',
+    title: 'Deteksi Penyakit',
+    description: 'Identifikasi penyakit umum pada daun jagung dari foto yang diunggah dengan workflow AI yang cepat.',
   },
   {
     icon: 'pi pi-folder',
-    title: 'Disease Catalog',
-    description: 'Explore a catalog of crop conditions, symptoms, and practical treatments.',
+    title: 'Katalog Penyakit',
+    description: 'Jelajahi katalog kondisi tanaman, gejala penyakit, dan penanganan yang praktis.',
   },
   {
     icon: 'pi pi-microchip',
-    title: 'AI Technology',
-    description: 'Use a model designed to analyze leaf patterns and return clear, actionable results.',
+    title: 'Teknologi AI',
+    description: 'Gunakan model yang dirancang untuk menganalisis pola daun dan menghasilkan hasil yang jelas serta mudah ditindaklanjuti.',
   },
 ]
 
@@ -36,23 +36,22 @@ const benefits = [
     <section class="border-b border-[#e7eddc] bg-[#f4f7ef]">
       <div class="mx-auto flex w-[min(1160px,calc(100%-1rem))] flex-col items-center px-0 py-16 text-center lg:py-20">
         <span class="inline-flex items-center rounded-full bg-[#e5f0d7] px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#6b8b4f]">
-          About Maize Vision
+          Tentang Maize Vision
         </span>
 
         <h1 class="mt-6 max-w-4xl text-[clamp(2.4rem,4vw,4.25rem)] font-bold leading-tight tracking-[-0.05em] text-[#42612a]">
-          Empowering Farmers with
+          Memanfaatkan Teknologi
           <span class="italic text-[#7cab59]">Artificial Intelligence</span>
-          for Better Crop Health
+          untuk Kesehatan Tanaman yang Lebih Baik
         </h1>
 
         <p class="mt-5 max-w-3xl text-base leading-8 text-[#6e7c68] md:text-lg">
-          Maize Vision combines computer vision and practical agricultural insight to help farmers detect maize leaf disease earlier,
-          act faster, and protect crop yield with confidence.
+          Maize Vision memanfaatkan teknologi computer vision untuk membantu petani mendeteksi penyakit daun jagung lebih awal, bertindak lebih cepat, dan melindungi hasil panen dengan lebih percaya diri.
         </p>
 
         <div class="mt-8 flex flex-wrap justify-center gap-3">
           <Button
-            label="Start Detection"
+            label="Mulai Deteksi"
             icon="pi pi-arrow-right"
             iconPos="right"
             class="rounded-full border-0 bg-[#35591d] px-6 py-3 font-semibold text-white shadow-[0_16px_28px_rgba(53,89,29,0.26)] transition hover:bg-[#2e4f19]"
@@ -60,7 +59,7 @@ const benefits = [
             to="/detection"
           />
           <Button
-            label="View Diseases"
+            label="Lihat Penyakit"
             severity="secondary"
             outlined
             class="rounded-full border border-[#cdd8c1] px-6 py-3 font-semibold text-[#355223] transition hover:bg-white"
@@ -75,22 +74,15 @@ const benefits = [
       <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
           <h2 class="text-3xl font-bold tracking-[-0.04em] text-[#355223] md:text-[2.4rem]">
-            The Technology Behind Maize Vision
+            Teknologi di Balik Maize Vision
           </h2>
 
-          <div class="mt-6 space-y-4 text-[0.98rem] leading-8 text-[#66715f] md:text-[1.02rem]">
-            <p>
-              Maize Vision uses computer vision techniques to inspect maize leaf images and highlight patterns that may indicate disease.
-            </p>
-            <p>
-              The system is trained to recognize common symptoms, then return a result that is easier to interpret than raw model output.
-            </p>
-            <p>
-              That means faster screening, clearer recommendations, and a workflow that is practical for everyday field use.
-            </p>
-            <p>
-              Continuous refinement and feedback from real usage help keep the experience relevant as crop conditions and datasets evolve.
-            </p>
+          <div class="mt-6 space-y-4 text-[0.98rem] leading-8 text-[#66715f] md:text-[1.02rem] text-justify">
+              Maize Vision menggunakan teknik computer vision menggunakan salah satu dari model deep learning (ConvNeXt atau MaxViT) untuk menganalisis citra daun jagung dan menyoroti pola yang dapat mengindikasikan penyakit.
+
+              Sistem dilatih untuk mengenali gejala umum, kemudian menghasilkan hasil yang mudah dipahami oleh pengguna.
+
+              Hal ini memungkinkan proses pemeriksaan yang lebih cepat, rekomendasi yang lebih jelas, serta workflow yang praktis untuk penggunaan sehari-hari di kebun jagung.
           </div>
 
           <div class="mt-8 grid gap-4 sm:grid-cols-3">
@@ -130,14 +122,14 @@ const benefits = [
     <section class="bg-[#315819] text-white">
       <div class="mx-auto w-[min(1160px,calc(100%-1rem))] px-0 py-16 text-center lg:py-20">
         <h2 class="text-[clamp(2rem,3vw,2.7rem)] font-semibold tracking-[-0.04em]">
-          Ready to Try Maize Vision?
+          Siap Mencoba Maize Vision?
         </h2>
         <p class="mx-auto mt-4 max-w-2xl text-white/80">
-          Start detecting corn diseases with an AI-powered workflow designed for faster decisions and healthier harvests.
+          Mulai deteksi penyakit daun jagung dengan workflow berbasis AI yang dirancang untuk pengambilan keputusan lebih cepat dan hasil panen yang lebih sehat.
         </p>
 
         <Button
-          label="Start Detection"
+          label="Mulai Deteksi"
           icon="pi pi-arrow-right"
           iconPos="right"
           class="mt-7 rounded-full border-0 bg-white px-6 py-3 font-semibold text-[#355223] shadow-[0_16px_28px_rgba(0,0,0,0.16)] transition hover:bg-[#f3f7ee]"
@@ -146,8 +138,8 @@ const benefits = [
         />
 
         <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-white/75">
-          <RouterLink class="border-b border-white/20 pb-0.5 no-underline" to="/diseases">View Disease Catalog</RouterLink>
-          <RouterLink class="border-b border-white/20 pb-0.5 no-underline" to="/about">Contact Us</RouterLink>
+          <RouterLink class="border-b border-white/20 pb-0.5 no-underline" to="/diseases">Lihat Katalog Penyakit</RouterLink>
+          <RouterLink class="border-b border-white/20 pb-0.5 no-underline" to="/about">Hubungi Kami</RouterLink>
         </div>
       </div>
     </section>

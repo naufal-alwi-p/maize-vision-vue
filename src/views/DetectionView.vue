@@ -55,8 +55,8 @@ const previewCropStyle = computed(() => {
     return size ? { width: `${size}px`, height: `${size}px` } : {}
 })
 const analyzeMessage = computed(() => {
-    // if (analyzeState.value === 'success') return 'Image submitted for analysis.'
-    if (analyzeState.value === 'error') return 'Failed to submit image. Try again.'
+    // if (analyzeState.value === 'success') return 'Gambar berhasil dikirim'
+    if (analyzeState.value === 'error') return 'Gambar gagal dikirim. Coba lagi.'
     return ''
 })
 
@@ -356,7 +356,7 @@ watch(previewUrl, async (value) => {
         <section class="mx-auto w-[min(1080px,calc(100%-1rem))] px-0 pt-7 pb-16">
             <div class="text-center">
                 <h1 class="text-[clamp(1.8rem,3vw,2.4rem)] font-semibold tracking-[-0.04em] text-[#2f4a1f]">
-                    Corn Leaf Disease Detection
+                    Deteksi Penyakit Daun Jagung
                 </h1>
                 <!-- <p class="mx-auto mt-2 max-w-xl text-[#6d7965]">
                     Upload an image of a corn leaf to identify potential diseases
@@ -506,9 +506,9 @@ watch(previewUrl, async (value) => {
                                 <span class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#e5efe0] text-[#4f6d2f]">
                                     <i class="pi pi-cloud-upload text-2xl"></i>
                                 </span>
-                                <h3 class="text-lg font-semibold text-[#3c5726]">Drag and drop your corn leaf image here</h3>
-                                <p class="mt-1 text-sm text-[#7a8772]">or click to browse files</p>
-                                <p class="mt-3 text-xs text-[#9aa593]">Supported formats: JPG, PNG, WEBP up to 10MB</p>
+                                <h3 class="text-lg font-semibold text-[#3c5726]">Drag and drop gambar daun jagung Anda di sini</h3>
+                                <p class="mt-1 text-sm text-[#7a8772]">atau klik untuk memilih file</p>
+                                <p class="mt-3 text-xs text-[#9aa593]">Format yang didukung: JPG, PNG, WEBP up to 10MB</p>
                             </div>
 
                             <input
@@ -521,7 +521,7 @@ watch(previewUrl, async (value) => {
 
                             <div class="mt-6 flex flex-wrap gap-4 max-sm:flex-col">
                                 <Button
-                                    label="Upload from Device"
+                                    label="Upload dari Perangkat"
                                     icon="pi pi-folder-open"
                                     severity="secondary"
                                     outlined
@@ -529,7 +529,7 @@ watch(previewUrl, async (value) => {
                                     @click="openFileDialog"
                                 />
                                 <Button
-                                    label="Use Camera"
+                                    label="Gunakan Kamera"
                                     icon="pi pi-camera"
                                     class="flex-1 rounded-xl border-0 bg-[#2f4a1f] text-white hover:bg-[#263d18]"
                                     @click="openCamera"
@@ -595,7 +595,7 @@ watch(previewUrl, async (value) => {
                                         style="width: 48px; height: 48px"
                                         strokeWidth="4"
                                     />
-                                    <span class="text-sm font-medium">Analyzing image...</span>
+                                    <span class="text-sm font-medium">Mendeteksi citra...</span>
                                 </div>
                             </div>
 
@@ -615,7 +615,7 @@ watch(previewUrl, async (value) => {
                             </div>
 
                             <Button
-                                label="Analyze Image with AI"
+                                label="Analisis Citra dengan AI"
                                 icon="pi pi-sparkles"
                                 class="mt-5 w-full rounded-xl border-0 bg-[#2f4a1f] text-white hover:bg-[#263d18]"
                                 :disabled="isAnalyzing"
@@ -650,24 +650,24 @@ watch(previewUrl, async (value) => {
                         <div class="p-6 sm:p-8">
                             <div class="flex items-center gap-2 text-[#3f5a29]">
                                 <i class="pi pi-lightbulb"></i>
-                                <h3 class="text-base font-semibold">Tips for Best Results</h3>
+                                <h3 class="text-base font-semibold">Tips untuk Hasil Terbaik</h3>
                             </div>
                             <ul class="mt-4 space-y-3 text-sm text-[#6d7965]">
                                 <li class="flex items-start gap-2">
                                     <i class="pi pi-check-circle text-[#5b7a36] mt-0.5"></i>
-                                    <span>Take photos in good lighting conditions for clearer images.</span>
+                                    <span>Ambil foto dalam kondisi pencahayaan yang baik agar gambar lebih jelas.</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <i class="pi pi-check-circle text-[#5b7a36] mt-0.5"></i>
-                                    <span>Focus on the affected area of the leaf showing disease symptoms.</span>
+                                    <span>Fokuskan pada bagian daun yang menunjukkan gejala penyakit.</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <i class="pi pi-check-circle text-[#5b7a36] mt-0.5"></i>
-                                    <span>Ensure the leaf fills most of the frame for accurate detection.</span>
+                                    <span>Pastikan daun memenuhi sebagian besar area gambar untuk deteksi yang lebih akurat.</span>
                                 </li>
                                 <li class="flex items-start gap-2">
                                     <i class="pi pi-check-circle text-[#5b7a36] mt-0.5"></i>
-                                    <span>Avoid blurry images. Hold your camera steady when capturing.</span>
+                                    <span>Hindari gambar buram. Jaga kamera tetap stabil saat mengambil foto.</span>
                                 </li>
                             </ul>
                         </div>

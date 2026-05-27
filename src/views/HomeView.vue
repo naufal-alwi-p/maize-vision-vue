@@ -21,41 +21,41 @@ type Step = {
 const features: Feature[] = [
   {
     icon: 'pi pi-upload',
-    title: 'Easy Upload',
-    description: 'Capture a corn leaf photo or drag and drop a clear image to begin.',
+    title: 'Tinggal Upload',
+    description: 'Ambil foto daun jagung atau pilih gambar yang jelas untuk memulai.',
   },
   {
     icon: 'pi pi-sparkles',
-    title: 'AI Analysis',
-    description: 'Advanced computer vision inspects the leaf for disease patterns in seconds.',
+    title: 'Analisis AI',
+    description: 'Teknologi computer vision menganalisis pola penyakit pada daun dalam hitungan detik.',
   },
   {
     icon: 'pi pi-chart-bar',
-    title: 'Accurate Results',
-    description: 'Get confidence scores, likely disease matches, and practical treatment guidance.',
+    title: 'Hasil Akurat',
+    description: 'Dapatkan tingkat kepercayaan prediksi, kemungkinan penyakit, dan panduan penanganan yang praktis.',
   },
   {
     icon: 'pi pi-book',
-    title: 'Learn & Prevent',
-    description: 'Review prevention tips and follow-up steps to protect future harvests.',
+    title: 'Pelajari & Cegah',
+    description: 'Pelajari tips pencegahan dan langkah lanjutan untuk melindungi panen berikutnya.',
   },
 ]
 
 const steps: Step[] = [
   {
     number: '1',
-    title: 'Upload Image',
-    description: 'Take a photo of the affected corn leaf or use an existing image from your device.',
+    title: 'Upload Gambar',
+    description: 'Ambil foto daun jagung atau gunakan gambar yang sudah tersedia di perangkat Anda.',
   },
   {
     number: '2',
-    title: 'AI Analysis',
-    description: 'The model processes the image and identifies disease patterns in seconds.',
+    title: 'Analisis AI',
+    description: 'Model memproses gambar dan mengidentifikasi pola penyakit dalam hitungan detik.',
   },
   {
     number: '3',
-    title: 'Get Results',
-    description: 'Receive disease information with treatment recommendations and prevention tips.',
+    title: 'Lihat Hasil',
+    description: 'Dapatkan informasi penyakit beserta rekomendasi penanganan dan tips pencegahan.',
   },
 ]
 
@@ -81,24 +81,24 @@ const goToDiseases = () => {
       <div class="relative z-10 mx-auto grid w-[min(1160px,calc(100%-1rem))] grid-cols-1 items-center gap-8 py-16 lg:grid-cols-[1.1fr_0.9fr]">
         <div class="max-w-136 text-[#f5f9ef]">
           <span class="inline-flex items-center justify-center rounded-full bg-[rgba(240,246,230,0.9)] px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#5d7a43]">AI-powered agriculture</span>
-          <h1 class="mt-4 max-w-[12ch] text-[clamp(2.7rem,5vw,5rem)] leading-[0.95] tracking-[-0.05em]">Protect Your Corn Harvest with AI</h1>
+          <h1 class="mt-4 max-w-[12ch] text-[clamp(2.7rem,5vw,5rem)] leading-[0.95] tracking-[-0.05em]">Lindungi Panen Jagung Anda dengan AI</h1>
           <p class="mt-4 max-w-136 text-[1.05rem] leading-7 text-white/88">
-            Upload a corn leaf photo and get instant disease detection with actionable treatment guidance.
+            Unggah foto daun jagung dan dapatkan deteksi penyakit secara instan beserta rekomendasi penanganan yang dapat diterapkan.
           </p>
 
           <div class="mt-8 flex flex-wrap gap-3 max-sm:flex-col">
             <Button
-              label="Start Detection"
+              label="Mulai Deteksi"
               icon="pi pi-arrow-right"
               iconPos="right"
               class="rounded-full border-0 bg-[#35591d] px-6 py-3 font-semibold text-white shadow-[0_18px_30px_rgba(53,89,29,0.28)] transition hover:bg-[#2e4f19]"
               @click="goToDetection"
             />
             <Button
-              label="View Diseases"
+              label="Lihat Penyakit"
               severity="secondary"
               outlined
-              class="rounded-full border border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+              class="rounded-full backdrop-blur-sm bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/40"
               @click="goToDiseases"
             />
           </div>
@@ -107,14 +107,14 @@ const goToDiseases = () => {
         <Card class="overflow-hidden rounded-3xl border border-white/45 bg-white/95 shadow-[0_30px_60px_rgba(18,42,12,0.22)] backdrop-blur-md" :pt="{ body: { class: 'p-0' } }">
           <template #content>
             <div class="p-8">
-              <span class="inline-flex items-center justify-center rounded-full bg-[#eff6e9] px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#5d7a43]">Instant crop insights</span>
-              <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-[#304b22]">Instant Disease Detection</h2>
+              <span class="inline-flex items-center justify-center rounded-full bg-[#eff6e9] px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#5d7a43]">Analisis Instan</span>
+              <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-[#304b22]">Deteksi Penyakit Daun</h2>
               <p class="mt-4 leading-7 text-[#66705e]">
-                Upload a corn leaf photo and receive AI-powered identification with treatment recommendations.
+                Unggah foto daun jagung dan dapatkan identifikasi penyakit berbasis AI beserta rekomendasi penanganannya.
               </p>
               <div class="mt-6">
                 <Button
-                  label="Start Detection"
+                  label="Mulai Deteksi"
                   icon="pi pi-arrow-right"
                   iconPos="right"
                   class="rounded-full border-0 bg-[#35591d] px-5 py-3 font-semibold text-white shadow-[0_16px_28px_rgba(53,89,29,0.26)] transition hover:bg-[#2e4f19]"
@@ -129,8 +129,8 @@ const goToDiseases = () => {
 
     <section class="mx-auto w-[min(1160px,calc(100%-1rem))] px-0 py-18">
       <div class="text-center">
-        <h2 class="text-[clamp(2rem,3vw,2.6rem)] font-semibold tracking-[-0.04em] text-[#355223]">Why use Maize Vision</h2>
-        <p class="mx-auto mt-3 max-w-160 text-[#77836e]">Fast, practical tooling for spotting disease earlier and acting with confidence.</p>
+        <h2 class="text-[clamp(2rem,3vw,2.6rem)] font-semibold tracking-[-0.04em] text-[#355223]">Mengapa Maize Vision?</h2>
+        <p class="mx-auto mt-3 max-w-160 text-[#77836e]">Solusi cepat dan praktis untuk mendeteksi penyakit lebih awal dan mengambil tindakan dengan lebih yakin.</p>
       </div>
 
       <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -155,8 +155,8 @@ const goToDiseases = () => {
 
     <section class="mx-auto w-[min(1160px,calc(100%-1rem))] px-0 py-12">
       <div class="text-center">
-        <h2 class="text-[clamp(2rem,3vw,2.6rem)] font-semibold tracking-[-0.04em] text-[#355223]">How It Works</h2>
-        <p class="mx-auto mt-3 max-w-160 text-[#77836e]">Three simple steps to protect your corn crop.</p>
+        <h2 class="text-[clamp(2rem,3vw,2.6rem)] font-semibold tracking-[-0.04em] text-[#355223]">Cara Kerjanya</h2>
+        <p class="mx-auto mt-3 max-w-160 text-[#77836e]">Tiga langkah sederhana untuk melindungi tanaman jagung Anda.</p>
       </div>
 
       <div class="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -182,10 +182,10 @@ const goToDiseases = () => {
 
     <section class="mx-auto w-[min(1160px,calc(100%-1rem))] px-0 pb-16 pt-4">
       <div class="rounded-[1.8rem] bg-[linear-gradient(135deg,#35591d_0%,#2e4f19_55%,#234013_100%)] px-6 py-14 text-center text-[#f4f8ef] shadow-[0_26px_50px_rgba(30,53,16,0.28)] md:px-8">
-        <h2 class="text-[clamp(2rem,3vw,2.7rem)] font-semibold tracking-[-0.04em]">Ready to Protect Your Crops?</h2>
-        <p class="mx-auto mt-3 max-w-xl text-white/84">Start using Maize Vision today and detect diseases before they spread.</p>
+        <h2 class="text-[clamp(2rem,3vw,2.7rem)] font-semibold tracking-[-0.04em]">Siap Melindungi Tanaman Anda?</h2>
+        <p class="mx-auto mt-3 max-w-xl text-white/84">Mulai gunakan Maize Vision sekarang dan deteksi penyakit sebelum menyebar.</p>
         <Button
-          label="Start Detection Now"
+          label="Mulai Deteksi Sekarang"
           icon="pi pi-arrow-right"
           iconPos="right"
           severity="secondary"
@@ -193,8 +193,8 @@ const goToDiseases = () => {
           @click="goToDetection"
         />
         <div class="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-white/85">
-          <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/diseases">View disease catalog</RouterLink>
-          <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/about">Learn more about Maize Vision</RouterLink>
+          <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/diseases">Lihat katalog penyakit</RouterLink>
+          <RouterLink class="border-b border-white/25 pb-0.5 no-underline" to="/about">Pelajari lebih lanjut tentang Maize Vision</RouterLink>
         </div>
       </div>
     </section>

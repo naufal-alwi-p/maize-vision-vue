@@ -9,19 +9,19 @@ import { diseases } from '@/scripts/DiseaseCatalog'
     <section class="bg-[#456b2a]">
       <div class="mx-auto w-[min(1160px,calc(100%-1rem))] px-0 py-16 text-center lg:py-20">
         <h1 class="text-3xl font-bold tracking-tight text-white md:text-4xl">
-          Corn Disease Encyclopedia
+          Ensiklopedia Penyakit Daun Jagung
         </h1>
         <p class="mt-3 text-base text-white/85 md:text-lg">
-          Learn about common corn diseases, their symptoms, and treatment methods
+          Pelajari berbagai penyakit umum pada daun jagung, gejala yang ditimbulkan, serta metode penanganannya
         </p>
       </div>
     </section>
 
     <section class="mx-auto w-[min(1160px,calc(100%-1rem))] px-0 py-12 lg:py-16">
       <div class="mb-8">
-        <h2 class="text-2xl font-bold text-[#355223]">All Diseases</h2>
+        <h2 class="text-2xl font-bold text-[#355223]">Daftar Penyakit</h2>
         <p class="mt-2 text-[#6d7965]">
-          Browse through our database of corn diseases and learn how to manage them.
+          Jelajahi list penyakit daun jagung kami dan pelajari cara penanganannya.
         </p>
       </div>
 

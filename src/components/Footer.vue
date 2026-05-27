@@ -15,7 +15,7 @@ const { color = 'white' } = defineProps<{
                     <img class="w-4" :src="MaizeVisionIcon" alt="Maize Vision Icon">
                     <p class="font-bold text-lg">Maize Vision</p>
                 </div>
-                <p class="text-center lg:text-left">AI-powered corn disease detection system for farmers and researchers</p>
+                <p class="text-center lg:text-left">Sistem deteksi penyakit daun jagung berbasis AI untuk petani dan peneliti</p>
             </div>
     
             <Divider  />

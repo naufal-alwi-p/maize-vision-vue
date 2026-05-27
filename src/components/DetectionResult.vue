@@ -106,7 +106,7 @@ const solutionSteps = computed(() => {
                 <div class="mt-3 flex items-center justify-end">
                   <span class="inline-flex items-center gap-1.5 rounded-full bg-[#1a2e10]/80 px-3 py-1 text-xs font-medium text-white">
                     <i class="pi pi-sparkles text-[10px]"></i>
-                    Dianalisis AI
+                    Analisa AI
                   </span>
                 </div>
               </div>
@@ -164,7 +164,7 @@ const solutionSteps = computed(() => {
               <div class="p-5">
                 <div class="mb-4 flex items-center gap-2 text-[#4f6d2f]">
                   <i class="pi pi-chart-bar"></i>
-                  <span class="text-sm font-semibold">Confidence Score Semua Label</span>
+                  <span class="text-sm font-semibold">Confidence Score</span>
                 </div>
                 <div class="space-y-4">
                   <div

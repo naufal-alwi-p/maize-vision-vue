@@ -84,7 +84,7 @@ onBeforeUnmount(() => {
             <template #end>
                 <div class="flex items-center gap-x-2">
                     <!-- <Button icon="pi pi-moon" severity="contrast" size="small" variant="text" /> -->
-                    <Button @click="$router.push('/detection')" :class="$route.path === '/detection' ? 'opacity-0 bg-[#35591d] hover:bg-[#2e4f19]' : 'bg-[#35591d] hover:bg-[#2e4f19]'" :disabled="$route.path === '/detection'" label="Start Detection" rounded v-bind="isMobile ? { size: 'small' } : {}" />
+                    <Button @click="$router.push('/detection')" :class="$route.path === '/detection' ? 'opacity-0 bg-[#35591d] hover:bg-[#2e4f19]' : 'bg-[#35591d] hover:bg-[#2e4f19]'" :disabled="$route.path === '/detection'" label="Mulai Deteksi" rounded v-bind="isMobile ? { size: 'small' } : {}" />
                 </div>
             </template>
         </Menubar>
