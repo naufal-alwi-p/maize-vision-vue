@@ -54,16 +54,9 @@ function getLabelColor(name: string): string {
   return labelColors[name] ?? 'bg-gray-400'
 }
 
-const solutionSteps = computed(() => {
-  if (!detectedDisease.value) return []
-  const sol = detectedDisease.value.solution
-  if (Array.isArray(sol)) {
-    return sol.map((s) => s.charAt(0).toUpperCase() + s.slice(1).replace(/\.$/, ''))
-  }
-  // Record<string, string[]> — flatten all values
-  return Object.values(sol)
-    .flat()
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1).replace(/\.$/, ''))
+const isSolutionArray = computed(() => {
+  if (!detectedDisease.value) return true
+  return Array.isArray(detectedDisease.value.solution)
 })
 </script>
 
@@ -259,24 +252,9 @@ const solutionSteps = computed(() => {
             >
               <template #content>
                 <div class="p-6">
-                  <h2 class="mb-3 text-xl font-bold text-[#2f4a1f]">Informasi Penyakit</h2>
-                  <p class="text-sm leading-7 text-[#556150]">
-                    {{ detectedDisease.characteristic.join('. ') }}
-                  </p>
-                </div>
-              </template>
-            </Card>
-
-            <!-- Gejala yang Terlihat (Characteristics) -->
-            <Card
-              class="overflow-hidden rounded-2xl border border-[#e3ead9] bg-white shadow-[0_12px_28px_rgba(63,83,48,0.08)]"
-              :pt="{ body: { class: 'p-0' } }"
-            >
-              <template #content>
-                <div class="p-6">
                   <div class="mb-4 flex items-center gap-2 text-[#b45309]">
                     <i class="pi pi-exclamation-triangle"></i>
-                    <h3 class="text-base font-semibold">Gejala yang Terlihat</h3>
+                    <h2 class="text-xl font-bold text-[#2f4a1f]">Informasi Penyakit</h2>
                   </div>
                   <ul class="space-y-3">
                     <li
@@ -303,22 +281,46 @@ const solutionSteps = computed(() => {
                 <div class="p-6">
                   <div class="mb-4 flex items-center gap-2 text-[#4f6d2f]">
                     <i class="pi pi-shield"></i>
-                    <h3 class="text-base font-semibold">Solusi &amp; Penanganan</h3>
+                    <h3 class="text-xl font-bold text-[#2f4a1f]">Solusi &amp; Penanganan</h3>
                   </div>
-                  <div class="space-y-5">
+                  <!-- string[] solution -->
+                  <template v-if="isSolutionArray">
+                    <ul class="space-y-3">
+                      <li
+                        v-for="(step, idx) in (detectedDisease.solution as string[])"
+                        :key="idx"
+                        class="flex items-start gap-3"
+                      >
+                        <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-100">
+                          <i class="pi pi-circle-fill text-[6px] text-green-500"></i>
+                        </span>
+                        <span class="text-sm leading-relaxed text-[#556150]">{{ step }}</span>
+                      </li>
+                    </ul>
+                  </template>
+
+                  <!-- Record<string, string[]> solution -->
+                  <template v-else>
                     <div
-                      v-for="(step, idx) in solutionSteps"
-                      :key="idx"
-                      class="flex items-start gap-4"
+                      v-for="(items, key) in (detectedDisease.solution as Record<string, string[]>)"
+                      :key="key"
+                      class="mb-5 last:mb-0"
                     >
-                      <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#3f6d1e] text-sm font-bold text-white">
-                        {{ idx + 1 }}
-                      </span>
-                      <div>
-                        <p class="text-sm leading-relaxed text-[#556150]">{{ step }}</p>
-                      </div>
+                      <p class="mb-3 font-semibold text-[#3c5726]">{{ key }}</p>
+                      <ul class="space-y-3">
+                        <li
+                          v-for="(item, idx) in items"
+                          :key="idx"
+                          class="flex items-start gap-3"
+                        >
+                          <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-100">
+                            <i class="pi pi-circle-fill text-[6px] text-green-500"></i>
+                          </span>
+                          <span class="text-sm leading-relaxed text-[#556150]">{{ item }}</span>
+                        </li>
+                      </ul>
                     </div>
-                  </div>
+                  </template>
 
                   <!-- Warning banner -->
                   <div class="mt-6 flex items-start gap-3 rounded-xl bg-orange-50 border border-orange-200 p-4">
