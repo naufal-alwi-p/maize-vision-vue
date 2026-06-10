@@ -56,10 +56,14 @@ function getLabelColor(name: string): string {
 
 const solutionSteps = computed(() => {
   if (!detectedDisease.value) return []
-  return detectedDisease.value.solution.split(', ').map((s) => {
-    // Capitalize first letter of each step
-    return s.charAt(0).toUpperCase() + s.slice(1).replace(/\.$/, '')
-  })
+  const sol = detectedDisease.value.solution
+  if (Array.isArray(sol)) {
+    return sol.map((s) => s.charAt(0).toUpperCase() + s.slice(1).replace(/\.$/, ''))
+  }
+  // Record<string, string[]> — flatten all values
+  return Object.values(sol)
+    .flat()
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1).replace(/\.$/, ''))
 })
 </script>
 
@@ -257,7 +261,7 @@ const solutionSteps = computed(() => {
                 <div class="p-6">
                   <h2 class="mb-3 text-xl font-bold text-[#2f4a1f]">Informasi Penyakit</h2>
                   <p class="text-sm leading-7 text-[#556150]">
-                    {{ detectedDisease.characteristic }}
+                    {{ detectedDisease.characteristic.join('. ') }}
                   </p>
                 </div>
               </template>
@@ -276,14 +280,14 @@ const solutionSteps = computed(() => {
                   </div>
                   <ul class="space-y-3">
                     <li
-                      v-for="(line, idx) in detectedDisease.characteristic.split('. ').filter((s) => s.trim())"
+                      v-for="(line, idx) in detectedDisease.characteristic"
                       :key="idx"
                       class="flex items-start gap-3"
                     >
                       <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-100">
                         <i class="pi pi-circle-fill text-[6px] text-orange-400"></i>
                       </span>
-                      <span class="text-sm leading-relaxed text-[#556150]">{{ line.replace(/\.$/, '') }}</span>
+                      <span class="text-sm leading-relaxed text-[#556150]">{{ line }}</span>
                     </li>
                   </ul>
                 </div>

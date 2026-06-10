@@ -5,8 +5,8 @@ interface Props {
   diseaseId: string
   diseaseName: string
   diseaseImage: string
-  characteristic: string
-  solution: string
+  characteristic: string[]
+  solution: string[] | Record<string, string[]>
   category: string
 }
 
@@ -29,21 +29,35 @@ defineProps<Props>()
           <div class="flex flex-col justify-between py-1 md:py-6 pl-6 md:pl-0 pr-6">
             <div>
               <div class="mb-3 flex items-center gap-2">
-                <h3 class="text-xl font-bold text-[#355223]">{{ diseaseName }}</h3>
+                <h3 class="text-2xl font-bold text-[#355223]">{{ diseaseName }}</h3>
               </div>
 
-              <p class="mb-4 text-sm text-[#6b7c6a]">
+              <p class="mb-4 text-[#6b7c6a]">
                 <span class="font-semibold text-[#5a7a37]">Category:</span> {{ category }}
               </p>
 
               <div class="mb-5">
-                <p class="mb-2 text-sm font-semibold text-[#355223]">Characteristics:</p>
-                <p class="text-sm leading-7 text-[#66715f]">{{ characteristic }}</p>
+                <p class="mb-2 font-semibold text-[#355223]">Characteristics:</p>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li v-for="(item, idx) in characteristic" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
+                </ul>
               </div>
 
               <div class="mb-6">
-                <p class="mb-2 text-sm font-semibold text-[#355223]">Solution:</p>
-                <p class="text-sm leading-7 text-[#66715f]">{{ solution }}</p>
+                <p class="mb-2 font-semibold text-[#355223]">Solution:</p>
+                <template v-if="Array.isArray(solution)">
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li v-for="(item, idx) in solution" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
+                  </ul>
+                </template>
+                <template v-else>
+                  <div v-for="(items, key) in solution" :key="key" class="mb-3">
+                    <p class="text-sm font-medium text-[#4a6336] mb-1">{{ key }}</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                      <li v-for="(item, idx) in items" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
+                    </ul>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
