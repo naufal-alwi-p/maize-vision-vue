@@ -17,7 +17,7 @@ defineProps<Props>()
   <div class="py-3 md:py-6">
     <Card class="overflow-hidden rounded-2xl border border-[#e2ead6] bg-white shadow-[0_12px_28px_rgba(63,83,48,0.06)]" :pt="{ body: { class: 'p-0' } }">
       <template #content>
-        <div class="grid grid-cols-1 items-center gap-2 md:gap-6 md:grid-cols-[280px_1fr]">
+        <div class="grid grid-cols-1 items-start gap-2 md:py-6 md:gap-6 md:grid-cols-[280px_1fr]">
           <div class="overflow-hidden rounded-xl md:bg-[#f1f5eb] p-4 ml-0 md:ml-6">
             <img
               :src="diseaseImage"
@@ -26,7 +26,7 @@ defineProps<Props>()
             />
           </div>
 
-          <div class="flex flex-col justify-between py-1 md:py-6 pl-6 md:pl-0 pr-6">
+          <div class="flex flex-col justify-between py-1 pl-6 md:pl-0 pr-6">
             <div>
               <div class="mb-3 flex items-center gap-2">
                 <h3 class="text-2xl font-bold text-[#355223]">{{ diseaseName }}</h3>
