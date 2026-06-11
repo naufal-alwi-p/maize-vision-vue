@@ -8,6 +8,7 @@ interface Props {
   characteristic: string[]
   solution: string[] | Record<string, string[]>
   category: string
+  references: string[]
 }
 
 defineProps<Props>()
@@ -58,6 +59,19 @@ defineProps<Props>()
                     </ul>
                   </div>
                 </template>
+              </div>
+
+              <div class="mb-6">
+                <p class="mb-2 font-semibold text-[#355223]">Referensi:</p>
+                <div class="space-y-3">
+                  <p
+                    v-for="(ref, idx) in references"
+                    :key="idx"
+                    class="text-sm leading-7 text-[#66715f] -indent-4 pl-8"
+                  >
+                    {{ ref }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

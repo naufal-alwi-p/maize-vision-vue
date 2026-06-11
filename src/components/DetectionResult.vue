@@ -171,7 +171,7 @@ const isSolutionArray = computed(() => {
                   >
                     <div class="flex items-center justify-between">
                       <div class="flex items-center gap-2">
-                        <span v-if="idx === topIndex" class="text-sm">🏆</span>
+                        <!-- <span v-if="idx === topIndex" class="text-sm">🏆</span> -->
                         <span class="text-sm font-medium text-[#3c5726]">{{ name }}</span>
                         <span
                           v-if="idx === topIndex"
@@ -330,6 +330,30 @@ const isSolutionArray = computed(() => {
                       Konsultasikan dengan penyuluh pertanian setempat jika infeksi sudah meluas.
                     </p>
                   </div>
+                </div>
+              </template>
+            </Card>
+
+            <!-- Referensi -->
+            <Card
+              class="overflow-hidden rounded-2xl border border-[#e3ead9] bg-white shadow-[0_12px_28px_rgba(63,83,48,0.08)]"
+              :pt="{ body: { class: 'p-0' } }"
+            >
+              <template #content>
+                <div class="p-6">
+                  <div class="mb-4 flex items-center gap-2 text-[#4f6d2f]">
+                    <i class="pi pi-book"></i>
+                    <h3 class="text-xl font-bold text-[#2f4a1f]">Referensi</h3>
+                  </div>
+                  <ul class="space-y-4">
+                    <li
+                      v-for="(ref, idx) in detectedDisease.references"
+                      :key="idx"
+                      class="text-sm leading-relaxed text-[#556150] -indent-4 pl-8"
+                    >
+                      {{ ref }}
+                    </li>
+                  </ul>
                 </div>
               </template>
             </Card>

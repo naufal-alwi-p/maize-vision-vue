@@ -10,6 +10,7 @@ export interface Disease {
   characteristic: string[]
   solution: string[] | Record<string, string[]>
   category: string
+  references: string[]
 }
 
 export const diseases: Disease[] = [
@@ -40,6 +41,9 @@ export const diseases: Disease[] = [
       ],
     },
     category: 'Fungal',
+    references: [
+      'Sulaiman, A. A., Djufry, F., Bahrun, A. H., & Nur, A. (2024). Budi Daya Jagung Terstandar (I. Muttaqien & E. Kustant (eds.)). Pertanian Press. https://repository.pertanian.go.id/items/4385cf3e-a525-48e4-89c2-a088cf480ac6',
+    ],
   },
   {
     id: 'gray-leaf-spot',
@@ -70,6 +74,9 @@ export const diseases: Disease[] = [
       ],
     },
     category: 'Fungal',
+    references: [
+      'Bayer Crop Science United States. (2023, July 11). Gray Leaf Spot in Corn. Bayer Crop Science United States. https://www.cropscience.bayer.us/articles/bayer/gray-leaf-spot-in-corn',
+    ],
   },
   {
     id: 'northern-corn-leaf-blight',
@@ -89,6 +96,9 @@ export const diseases: Disease[] = [
       'Penggunaan varietas tahan penyakit hawar daun',
     ],
     category: 'Fungal',
+    references: [
+      'Ramija, K. EL, Harahap, A. T., Harahap, S. M., Romaito, S., Siregar, I. H., Agriawat, D., Nurmalia, Sitindaon, S. H., Listiawati, Hasibuan, M., Handayani, T., Hutapea, N., Zulhaidah, L., Nurzannah, S. E., & Aisyah, L. (2024). Penerapan Good Agricultural Practices (GAP) Jagung di Sumatera Utara. Balai Penerapan Standar Instrumen Pertanian Sumatera Utara. https://repository.pertanian.go.id/items/9f373d27-ff20-4d89-ac04-b52c54489a8b',
+    ],
   },
   {
     id: 'pest-damage',
@@ -135,6 +145,10 @@ export const diseases: Disease[] = [
       ],
     },
     category: 'Pest',
+    references: [
+      'Anintyas, D., Safitri, K. N. I., Kusumawati, E., Masoyogie, K., Dirmawati, S. R., Aeny, T. N., & Suharjo, R. (2024). Spodoptera frugiperda: Hama utama pada tanaman jagung dan strategi pengendaliannya. Jurnal Proteksi Agrikultura, 1(2). https://doi.org/10.23960/jpa.2166-80',
+      'Sulaiman, A. A., Djufry, F., Bahrun, A. H., & Nur, A. (2024). Budi Daya Jagung Terstandar (I. Muttaqien & E. Kustant (eds.)). Pertanian Press. https://repository.pertanian.go.id/items/4385cf3e-a525-48e4-89c2-a088cf480ac6',
+    ],
   },
 ]
 

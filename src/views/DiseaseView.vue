@@ -35,6 +35,7 @@ import { diseases } from '@/scripts/DiseaseCatalog'
           :characteristic="disease.characteristic"
           :solution="disease.solution"
           :category="disease.category"
+          :references="disease.references"
         />
       </div>
     </section>
