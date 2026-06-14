@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
 import Menubar from 'primevue/menubar';
-import { type MenuItem } from 'primevue/menuitem';
+import type { MenuItem } from 'primevue/menuitem';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import MaizeVisionIcon from '@/assets/maize-vision-logo.svg';
 import { RouterLink } from 'vue-router';
