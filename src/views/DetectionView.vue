@@ -284,7 +284,7 @@ const analyzeImage = async () => {
     analyzeState.value = 'idle'
 
     try {
-        const endpoint = 'http://127.0.0.1:8000/predict'
+        const endpoint = `${import.meta.env.VITE_API_BASE_URL}/predict`
         if (selectedFile.value) {
             const formData = new FormData()
             formData.append('image', selectedFile.value)
