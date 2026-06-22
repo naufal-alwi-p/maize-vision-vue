@@ -34,18 +34,18 @@ defineProps<Props>()
               </div>
 
               <p class="mb-4 text-[#6b7c6a]">
-                <span class="font-semibold text-[#5a7a37]">Category:</span> {{ category }}
+                <span class="font-semibold text-[#5a7a37]">Kategori:</span> {{ category }}
               </p>
 
               <div class="mb-5">
-                <p class="mb-2 font-semibold text-[#355223]">Characteristics:</p>
+                <p class="mb-2 font-semibold text-[#355223]">Karakteristik:</p>
                 <ul class="list-disc pl-5 space-y-1">
                   <li v-for="(item, idx) in characteristic" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
                 </ul>
               </div>
 
               <div class="mb-6">
-                <p class="mb-2 font-semibold text-[#355223]">Solution:</p>
+                <p class="mb-2 font-semibold text-[#355223]">Solusi:</p>
                 <template v-if="Array.isArray(solution)">
                   <ul class="list-disc pl-5 space-y-1">
                     <li v-for="(item, idx) in solution" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
