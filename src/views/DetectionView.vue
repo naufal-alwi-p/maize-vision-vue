@@ -610,6 +610,7 @@ watch(previewUrl, async (value) => {
                                     rounded
                                     text
                                     aria-label="Remove image"
+                                    :disabled="isAnalyzing"
                                     @click="clearPreview"
                                 />
                             </div>
