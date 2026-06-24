@@ -40,7 +40,7 @@ defineProps<Props>()
               <div class="mb-5">
                 <p class="mb-2 font-semibold text-[#355223]">Karakteristik:</p>
                 <ul class="list-disc pl-5 space-y-1">
-                  <li v-for="(item, idx) in characteristic" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
+                  <li v-for="(item, idx) in characteristic" :key="idx" class="text-sm leading-7 text-[#66715f]" v-html="item"></li>
                 </ul>
               </div>
 
@@ -48,14 +48,14 @@ defineProps<Props>()
                 <p class="mb-2 font-semibold text-[#355223]">Solusi:</p>
                 <template v-if="Array.isArray(solution)">
                   <ul class="list-disc pl-5 space-y-1">
-                    <li v-for="(item, idx) in solution" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
+                    <li v-for="(item, idx) in solution" :key="idx" class="text-sm leading-7 text-[#66715f]" v-html="item"></li>
                   </ul>
                 </template>
                 <template v-else>
                   <div v-for="(items, key) in solution" :key="key" class="mb-3">
                     <p class="text-sm font-medium text-[#4a6336] mb-1">{{ key }}</p>
                     <ul class="list-disc pl-5 space-y-1">
-                      <li v-for="(item, idx) in items" :key="idx" class="text-sm leading-7 text-[#66715f]">{{ item }}</li>
+                      <li v-for="(item, idx) in items" :key="idx" class="text-sm leading-7 text-[#66715f]" v-html="item"></li>
                     </ul>
                   </div>
                 </template>
@@ -64,13 +64,7 @@ defineProps<Props>()
               <div class="mb-6">
                 <p class="mb-2 font-semibold text-[#355223]">Referensi:</p>
                 <div class="space-y-3">
-                  <p
-                    v-for="(ref, idx) in references"
-                    :key="idx"
-                    class="text-sm leading-7 text-[#66715f] -indent-4 pl-8"
-                  >
-                    {{ ref }}
-                  </p>
+                  <div v-for="(ref, idx) in references" :key="idx" class="text-sm leading-7 text-[#66715f] -indent-4 pl-8" v-html="ref"></div>
                 </div>
               </div>
             </div>

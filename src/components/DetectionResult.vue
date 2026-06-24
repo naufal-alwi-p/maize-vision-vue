@@ -35,7 +35,7 @@ const topIndex = computed(() => {
 
 const topClassName = computed(() => props.result.class_names[topIndex.value] ?? '')
 const topScore = computed(() => props.result.scores[topIndex.value] ?? 0)
-const isHealthy = computed(() => topClassName.value === 'Healthy')
+const isHealthy = computed(() => topClassName.value === 'Sehat')
 
 const detectedDisease = computed(() => {
   if (isHealthy.value) return undefined
@@ -43,11 +43,11 @@ const detectedDisease = computed(() => {
 })
 
 const labelColors: Record<string, string> = {
-  'Common_Rust': 'bg-amber-700',
-  'Gray_Leaf_Spot': 'bg-gray-400',
-  'Blight': 'bg-amber-300',
-  'Pest_Damage': 'bg-orange-500',
-  'Healthy': 'bg-green-500',
+  'Karat Daun': 'bg-amber-700',
+  'Bercak Daun': 'bg-gray-400',
+  'Hawar Daun': 'bg-amber-300',
+  'Kerusakan Hama': 'bg-orange-500',
+  'Sehat': 'bg-green-500',
 }
 
 function getLabelColor(name: string): string {
@@ -265,7 +265,7 @@ const isSolutionArray = computed(() => {
                       <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-100">
                         <i class="pi pi-circle-fill text-[6px] text-orange-400"></i>
                       </span>
-                      <span class="text-sm leading-relaxed text-[#556150]">{{ line }}</span>
+                      <span class="text-sm leading-relaxed text-[#556150]" v-html="line"></span>
                     </li>
                   </ul>
                 </div>
@@ -294,7 +294,7 @@ const isSolutionArray = computed(() => {
                         <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-100">
                           <i class="pi pi-circle-fill text-[6px] text-green-500"></i>
                         </span>
-                        <span class="text-sm leading-relaxed text-[#556150]">{{ step }}</span>
+                        <span class="text-sm leading-relaxed text-[#556150]" v-html="step"></span>
                       </li>
                     </ul>
                   </template>
@@ -316,7 +316,7 @@ const isSolutionArray = computed(() => {
                           <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-100">
                             <i class="pi pi-circle-fill text-[6px] text-green-500"></i>
                           </span>
-                          <span class="text-sm leading-relaxed text-[#556150]">{{ item }}</span>
+                          <span class="text-sm leading-relaxed text-[#556150]" v-html="item"></span>
                         </li>
                       </ul>
                     </div>
@@ -350,9 +350,8 @@ const isSolutionArray = computed(() => {
                       v-for="(ref, idx) in detectedDisease.references"
                       :key="idx"
                       class="text-sm leading-relaxed text-[#556150] -indent-4 pl-8"
-                    >
-                      {{ ref }}
-                    </li>
+                      v-html="ref"
+                    ></li>
                   </ul>
                 </div>
               </template>

@@ -16,10 +16,10 @@ export interface Disease {
 export const diseases: Disease[] = [
   {
     id: 'common-rust',
-    name: 'Common Rust',
+    name: 'Karat Daun',
     image: CommonRustImage,
     characteristic: [
-      'Penyakit karat daun disebabkan oleh pathogen P. sorghi lebih banyak menyerang (ditemukan) pada dataran sedang-tinggi, sementara P. polysora lebih banyak menyerang (ditemukan) pada dataran rendah.',
+      'Karat daun (<i>Common Rust</i>) disebabkan oleh pathogen P. sorghi lebih banyak menyerang (ditemukan) pada dataran sedang-tinggi, sementara P. polysora lebih banyak menyerang (ditemukan) pada dataran rendah.',
       'Adanya bisul (pustules) pada kedua permukaan daun bagian atas dan bawah dengan warna cokelat kemerahan tersebar pada permukaan daun dan berubah warna menjadi hitam kecokelatan setelah teliospora berkembang.',
       'Pada tanaman dewasa tingkat serangan lebih parah, daun menjadi kering sehingga mematikan tanaman.',
     ],
@@ -47,10 +47,10 @@ export const diseases: Disease[] = [
   },
   {
     id: 'gray-leaf-spot',
-    name: 'Gray Leaf Spot',
+    name: 'Bercak Daun',
     image: GLSImage,
     characteristic: [
-      'Disebabkan oleh jamur Cercospora zeae-maydis. Gejala awal berupa lesi atau bercak yang awalnya berwarna kuning. Bercak kemudian berubah menjadi cokelat muda (tan) hingga abu-abu. Lesi berbentuk memanjang dan sempit mengikuti arah tulang daun.',
+      'Bercak daun (<i>Gray Leaf Spot</i>) disebabkan oleh jamur Cercospora zeae-maydis. Gejala awal berupa lesi atau bercak yang awalnya berwarna kuning. Bercak kemudian berubah menjadi cokelat muda (tan) hingga abu-abu. Lesi berbentuk memanjang dan sempit mengikuti arah tulang daun.',
       'Penyakit umumnya mulai berkembang dari daun bagian bawah kemudian menyebar ke daun yang lebih atas.',
       'Penyakit berkembang lebih cepat pada kondisi lingkungan yang lembap dan hangat serta pada lahan dengan riwayat penanaman jagung berulang. Patogen penyebab penyakit dapat bertahan hidup pada residu tanaman jagung yang tertinggal di lahan sehingga menjadi sumber infeksi pada musim tanam berikutnya.',
       'Serangan penyakit menyebabkan peningkatan luas area daun yang terinfeksi sehingga mengurangi kemampuan daun untuk melakukan fotosintesis. Semakin besar persentase daun yang terinfeksi, semakin besar potensi kehilangan hasil panen.',
@@ -80,11 +80,11 @@ export const diseases: Disease[] = [
   },
   {
     id: 'northern-corn-leaf-blight',
-    name: 'Northern Corn Leaf Blight',
+    name: 'Hawar Daun',
     image: NCBImage,
     characteristic: [
-      'Disebabkan oleh Exserohilum turcicum. Dapat menyebabkan kehilangan hasil jagung akibat infeksi penyakit hawar daun mencapai 70%.',
-      'Muncul bercak kecil berbentuk oval, bercak kemudian memanjang elips dan berkembang menjadi nekrotik yang disebut hawar.',
+      'Hawar daun (<i>Northern Corn Leaf Blight</i>) disebabkan oleh Exserohilum turcicum. Dapat menyebabkan kehilangan hasil jagung akibat infeksi penyakit hawar daun mencapai 70%.',
+      'Muncul bercak kecil berbentuk oval, bercak kemudian memanjang elips seperti cerutu dan berkembang menjadi nekrotik yang disebut hawar.',
       'Warnanya hijau keabu-abuan atau coklat. Panjang hawar 2,5-15 cm.',
       'Bercak muncul pertama kali pada daun terbawah, kemudian berkembang kebagian atas.',
       'Infeksi berat dapat mengakibatkan tanaman cepat mati atau mengering. Cendawan ini tidak menginfeksi tongkol atau kelobot.',
@@ -102,10 +102,10 @@ export const diseases: Disease[] = [
   },
   {
     id: 'pest-damage',
-    name: 'Pest Damage',
+    name: 'Kerusakan Hama',
     image: PestDamageImage,
     characteristic: [
-      'Fall armyworm menyerang berbagai bagian tanaman jagung, terutama daun, batang, bunga, buah, dan titik tumbuh.',
+      'Kerusakan hama (<i>Pest Damage</i>) biasanya disebabkan oleh fall armyworm yang menyerang bagian tanaman jagung, terutama daun, batang, bunga, buah, dan titik tumbuh.',
       'Larva instar awal memakan lapisan permukaan daun sehingga muncul goresan atau bercak transparan memanjang (window pane damage) pada daun. Larva instar lanjut memakan jaringan daun lebih dalam hingga membentuk lubang-lubang tidak beraturan pada daun.',
       'Larva dapat menyerang titik tumbuh (whorl) sehingga daun muda yang membuka menunjukkan kerusakan yang semakin jelas. Larva dapat menggerek dan memakan bagian batang maupun bunga jagung.',
       'Serangan berat menyebabkan daun hampir habis dimakan dan hanya menyisakan tulang daun serta batang tanaman. Pucuk tanaman dapat patah akibat aktivitas makan larva.',
@@ -158,10 +158,10 @@ export const diseases: Disease[] = [
  */
 export function getDiseaseByClassName(className: string): Disease | undefined {
   const mapping: Record<string, string> = {
-    'Common_Rust': 'common-rust',
-    'Gray_Leaf_Spot': 'gray-leaf-spot',
-    'Blight': 'northern-corn-leaf-blight',
-    'Pest_Damage': 'pest-damage',
+    'Karat Daun': 'common-rust',
+    'Bercak Daun': 'gray-leaf-spot',
+    'Hawar Daun': 'northern-corn-leaf-blight',
+    'Kerusakan Hama': 'pest-damage',
   }
 
   const diseaseId = mapping[className]
