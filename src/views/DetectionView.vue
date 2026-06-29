@@ -36,16 +36,16 @@ const videoInputCount = ref(0)
 const previewFrameRef = ref<HTMLDivElement | null>(null)
 const previewCropSize = ref(0)
 
-const modelOptions = ref([
-    {
-        name: 'ConvNeXt (Best)',
-        value: 'convnext',
-    },
-    {
-        name: 'MaxViT',
-        value: 'maxvit',
-    },
-])
+// const modelOptions = ref([
+//     {
+//         name: 'ConvNeXt (Best)',
+//         value: 'convnext',
+//     },
+//     {
+//         name: 'MaxViT',
+//         value: 'maxvit',
+//     },
+// ])
 const selectedModel = ref<'convnext' | 'maxvit'>('convnext')
 
 const hasPreview = computed(() => Boolean(previewUrl.value))
@@ -623,7 +623,7 @@ watch(previewUrl, async (value) => {
                                 @click="analyzeImage"
                             />
 
-                            <InputGroup class="mt-5 max-w-fit mx-auto md:mx-0">
+                            <!-- <InputGroup class="mt-5 max-w-fit mx-auto md:mx-0">
                                 <InputGroupAddon>
                                     <i class="pi pi-microchip-ai"></i>
                                 </InputGroupAddon>
@@ -634,7 +634,7 @@ watch(previewUrl, async (value) => {
                                     optionValue="value"
                                     size="small"
                                 />
-                            </InputGroup>
+                            </InputGroup> -->
 
                             <p v-if="analyzeMessage" class="mt-3 text-center text-sm text-red-500" aria-live="polite">
                                 {{ analyzeMessage }}
